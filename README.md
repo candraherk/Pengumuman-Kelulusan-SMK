@@ -1,4 +1,4 @@
-# SMKN 2 Godean Graduation Announcement System
+# Pengumuman Kelulusan
 
 ## Environment Configuration
 Copy `.env.example` to `.env` and fill in the values:
