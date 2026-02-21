@@ -1,0 +1,83 @@
+Create a full-stack web application for student graduation announcement with the following requirements:
+
+School Name: SMKN 2 Godean
+Language: Indonesian
+Audience: Students and parents
+
+GENERAL GOAL:
+Build a modern, secure, dynamic graduation announcement website with a separate admin panel for managing student data.
+
+DESIGN:
+- Modern UI style trend 2026 (clean, minimal, soft glassmorphism, subtle gradients, smooth animations)
+- Mobile-first responsive design
+- Professional school branding
+- Friendly and reassuring tone
+- Use calming colors (blue, teal, white)
+- Include subtle micro-interactions
+
+PUBLIC FEATURES:
+1. Landing page:
+   - School logo and name
+   - Title: “Pengumuman Kelulusan SMKN 2 Godean”
+   - Information section with announcement instructions
+   - Countdown timer to announcement time (configurable)
+
+2. Graduation check page:
+   - Form with fields:
+     - Nomor Induk Siswa (NIS)
+     - Tanggal Lahir (date picker)
+   - Button: “Cek Kelulusan”
+   - Show result card:
+       - Nama siswa
+       - Jurusan
+       - Status kelulusan (LULUS / TIDAK LULUS)
+       - Message of congratulations or guidance
+   - Prevent brute force with basic rate limiting
+
+3. Download feature:
+   - Allow download of graduation certificate (PDF placeholder)
+
+ADMIN PANEL:
+- Secure login page (email + password)
+- Role: admin
+
+Admin dashboard features:
+- Add student record:
+    - NIS
+    - Nama
+    - Jurusan
+    - Tanggal lahir
+    - Status kelulusan
+    - Catatan
+- Edit and delete student
+- Search students
+- Import CSV
+- Export data
+- Toggle announcement open/closed
+
+DATABASE:
+Create database tables:
+- admins
+- students
+- settings (announcement time)
+
+SECURITY:
+- Hash passwords
+- Input validation
+- Basic audit log
+- Protect admin routes
+
+TECHNICAL:
+- Provide API endpoints
+- Use structured database schema
+- Ensure scalable architecture
+
+DEPLOYMENT:
+- Ready to deploy
+- Include environment configuration
+
+EXTRA:
+- Add banner reminding students to celebrate responsibly
+- Include footer with school contact
+
+Deliver a complete working application.
