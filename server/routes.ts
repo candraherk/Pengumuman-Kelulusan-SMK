@@ -72,7 +72,7 @@ export async function registerRoutes(
 
   // Auth routes
   app.post(api.auth.login.path, (req, res, next) => {
-    passport.authenticate("local", (err, user, info) => {
+    passport.authenticate("local", (err: any, user: any, info: any) => {
       if (err) return next(err);
       if (!user) return res.status(401).json({ message: info.message });
       req.login(user, (err) => {
@@ -194,14 +194,21 @@ export async function registerRoutes(
 
   app.put(api.admin.settings.update.path, requireAuth, async (req, res) => {
     try {
+      console.log("Updating settings with body:", req.body);
       const input = api.admin.settings.update.input.parse(req.body);
       const settings = await storage.updateSettings({
         ...input,
         announcementDate: input.announcementDate ? new Date(input.announcementDate) : null,
       });
+      console.log("Settings updated successfully:", settings);
       res.json(settings);
     } catch (err) {
-      res.status(400).json({ message: "Invalid settings format" });
+      console.error("Error updating settings:", err);
+      if (err instanceof z.ZodError) {
+        res.status(400).json({ message: "Format pengaturan tidak valid: " + err.errors.map(e => e.message).join(", ") });
+      } else {
+        res.status(400).json({ message: "Gagal memperbarui pengaturan" });
+      }
     }
   });
 

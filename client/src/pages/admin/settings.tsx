@@ -43,15 +43,18 @@ export default function AdminSettings() {
 
   const onSubmit = async (data: z.infer<typeof settingsFormSchema>) => {
     try {
+      console.log("Submitting settings data:", data);
       // Transform local datetime-local string back to ISO string for backend
       const payload: InsertSetting = {
         isOpen: data.isOpen,
-        announcementDate: data.announcementDate ? new Date(data.announcementDate).toISOString() : null,
+        announcementDate: data.announcementDate ? new Date(data.announcementDate) : null,
       };
 
+      console.log("Sending payload to API:", payload);
       await updateMutation.mutateAsync(payload);
       toast({ title: "Berhasil", description: "Pengaturan berhasil diperbarui." });
     } catch (error) {
+      console.error("Error submitting settings:", error);
       toast({ title: "Gagal", description: "Gagal menyimpan pengaturan.", variant: "destructive" });
     }
   };

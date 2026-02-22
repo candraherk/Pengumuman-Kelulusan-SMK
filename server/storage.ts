@@ -72,9 +72,17 @@ export class DatabaseStorage implements IStorage {
   async updateSettings(settingsData: InsertSetting): Promise<Setting> {
     const [existing] = await db.select().from(settings).limit(1);
     if (existing) {
-      const [updated] = await db.update(settings).set(settingsData).where(eq(settings.id, existing.id)).returning();
+      console.log("Updating existing settings ID:", existing.id);
+      const [updated] = await db.update(settings)
+        .set({
+          announcementDate: settingsData.announcementDate,
+          isOpen: settingsData.isOpen
+        })
+        .where(eq(settings.id, existing.id))
+        .returning();
       return updated;
     } else {
+      console.log("Creating new settings");
       const [created] = await db.insert(settings).values(settingsData).returning();
       return created;
     }
