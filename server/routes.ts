@@ -195,19 +195,21 @@ export async function registerRoutes(
   app.put(api.admin.settings.update.path, requireAuth, async (req, res) => {
     try {
       console.log("Updating settings with body:", req.body);
-      const input = api.admin.settings.update.input.parse(req.body);
-      const settings = await storage.updateSettings({
-        ...input,
-        announcementDate: input.announcementDate ? new Date(input.announcementDate) : null,
-      });
+      
+      // Explicitly parse using the updated schema that handles string-to-date conversion
+      const input = insertSettingsSchema.parse(req.body);
+
+      const settings = await storage.updateSettings(input);
       console.log("Settings updated successfully:", settings);
       res.json(settings);
     } catch (err) {
       console.error("Error updating settings:", err);
       if (err instanceof z.ZodError) {
-        res.status(400).json({ message: "Format pengaturan tidak valid: " + err.errors.map(e => e.message).join(", ") });
+        res.status(400).json({ 
+          message: "Format tidak valid: " + err.errors.map(e => `${e.path.join(".")}: ${e.message}`).join(", ") 
+        });
       } else {
-        res.status(400).json({ message: "Gagal memperbarui pengaturan" });
+        res.status(500).json({ message: "Gagal memperbarui pengaturan" });
       }
     }
   });

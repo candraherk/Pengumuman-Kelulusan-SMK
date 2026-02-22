@@ -26,7 +26,12 @@ export const settings = pgTable("settings", {
 
 export const insertAdminSchema = createInsertSchema(admins).omit({ id: true });
 export const insertStudentSchema = createInsertSchema(students).omit({ id: true });
-export const insertSettingsSchema = createInsertSchema(settings).omit({ id: true });
+export const insertSettingsSchema = createInsertSchema(settings, {
+  announcementDate: z.preprocess((val) => {
+    if (typeof val === "string" && val !== "") return new Date(val);
+    return val;
+  }, z.date().nullable()),
+}).omit({ id: true });
 
 export type Admin = typeof admins.$inferSelect;
 export type InsertAdmin = z.infer<typeof insertAdminSchema>;
